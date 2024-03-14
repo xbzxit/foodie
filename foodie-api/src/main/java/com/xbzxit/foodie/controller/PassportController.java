@@ -1,6 +1,7 @@
 package com.xbzxit.foodie.controller;
 
 import com.xbzxit.foodie.service.UserService;
+import com.xbzxit.foodie.utils.JSONResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,15 +24,15 @@ public class PassportController {
     private UserService userService;
 
     @GetMapping("/usernameIsExist")
-    public String usernameIsExist(@RequestParam String username) {
+    public JSONResult usernameIsExist(@RequestParam String username) {
         if(StringUtils.isBlank(username)) {
-            return "用户名不能为空";
+            return JSONResult.errorMsg("用户名不能为空");
         }
 
         boolean isExist = userService.queryUsernameIsExist(username);
         if (isExist) {
-            return "用户已经存在";
+            return JSONResult.errorMsg("用户已经存在");
         }
-        return "ok";
+        return JSONResult.ok();
     }
 }

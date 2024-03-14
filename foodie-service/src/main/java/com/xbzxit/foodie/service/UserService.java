@@ -1,5 +1,8 @@
 package com.xbzxit.foodie.service;
 
+import com.xbzxit.foodie.pojo.Users;
+import com.xbzxit.foodie.pojo.bo.UserBO;
+
 /**
  * 用户管理服务接口
  *
@@ -18,4 +21,10 @@ public interface UserService {
      */
     boolean queryUsernameIsExist(String username);
 
+    /**
+     * 用户注册
+     * @param userBO
+     * @return
+     */
+    Users createUser(UserBO userBO);
 }

@@ -2,6 +2,8 @@ package com.xbzxit.foodie.controller;
 
 import com.xbzxit.foodie.service.UserService;
 import com.xbzxit.foodie.utils.JSONResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @company www.nuzarsurf.com
  */
 
+@Api(value = "注册登录", tags = {"用于注册登录的相关接口"})
 @RestController
 @RequestMapping("passport")
 public class PassportController {
@@ -23,6 +26,7 @@ public class PassportController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "用户名是否存在", notes = "用户名是否存在", httpMethod = "GET")
     @GetMapping("/usernameIsExist")
     public JSONResult usernameIsExist(@RequestParam String username) {
         if(StringUtils.isBlank(username)) {

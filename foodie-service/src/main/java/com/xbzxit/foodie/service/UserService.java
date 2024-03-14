@@ -27,4 +27,11 @@ public interface UserService {
      * @return
      */
     Users createUser(UserBO userBO);
+
+    /**
+     * 用户登录
+     * @param userBO
+     * @return
+     */
+    Users queryUserForLogin(String username, String password);
 }

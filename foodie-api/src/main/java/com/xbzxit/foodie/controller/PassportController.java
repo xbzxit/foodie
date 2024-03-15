@@ -1,5 +1,6 @@
 package com.xbzxit.foodie.controller;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.xbzxit.foodie.pojo.Users;
 import com.xbzxit.foodie.pojo.bo.UserBO;
 import com.xbzxit.foodie.service.UserService;
@@ -124,8 +125,8 @@ public class PassportController {
             return JSONResult.errorMsg("用户名或密码不能为空");
         }
 
-        // 1. 实现登录
-        Users userResult = userService.queryUserForLogin(username, MD5Utils.getMD5Str(password));
+        // 1. 实现登录 MD5Utils.getMD5Str(
+        Users userResult = userService.queryUserForLogin(username, DigestUtil.md5Hex(password));
 
         if (userResult == null) {
             return JSONResult.errorMsg("用户名或密码不正确");

@@ -2,7 +2,9 @@ package com.xbzxit.foodie.controller;
 
 import com.xbzxit.foodie.enums.YesOrNo;
 import com.xbzxit.foodie.pojo.Carousel;
+import com.xbzxit.foodie.pojo.Category;
 import com.xbzxit.foodie.service.CarouselService;
+import com.xbzxit.foodie.service.CategoryService;
 import com.xbzxit.foodie.utils.JSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +29,8 @@ public class IndexController {
 
     @Autowired
     CarouselService carouselService;
+    @Autowired
+    CategoryService categoryService;
 
     @ApiOperation(value = "获取首页轮播图列表", notes = "获取首页轮播图列表", httpMethod = "GET")
     @GetMapping("/carousel")
@@ -34,5 +38,42 @@ public class IndexController {
         List<Carousel> list = carouselService.queryAll(YesOrNo.Yes.type);
         return JSONResult.ok(list);
     }
+
+    @ApiOperation(value = "获取商品分类(一级分类)", notes = "获取商品分类(一级分类)", httpMethod = "GET")
+    @GetMapping("/cats")
+    public JSONResult cats(){
+        List<Category> list = categoryService.queryAllRootLevelCat();
+        return JSONResult.ok(list);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

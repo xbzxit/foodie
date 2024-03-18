@@ -2,6 +2,7 @@ package com.xbzxit.foodie.mapper;
 
 import com.xbzxit.foodie.pojo.vo.CategoryVO;
 import com.xbzxit.foodie.pojo.vo.NewItemsVO;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
  * @company www.nuzarsurf.com
  */
 
+@Mapper
 public interface CategoryMapperCustom {
 
     List<CategoryVO> getSubCatList(Integer rootCatId);

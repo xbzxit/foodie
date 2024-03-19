@@ -30,7 +30,8 @@ public interface UserService {
 
     /**
      * 用户登录
-     * @param userBO
+     * @param username
+     * @param password
      * @return
      */
     Users queryUserForLogin(String username, String password);

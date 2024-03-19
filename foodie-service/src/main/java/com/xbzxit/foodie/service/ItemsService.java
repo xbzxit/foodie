@@ -4,10 +4,13 @@ import com.xbzxit.foodie.pojo.Items;
 import com.xbzxit.foodie.pojo.ItemsImg;
 import com.xbzxit.foodie.pojo.ItemsParam;
 import com.xbzxit.foodie.pojo.ItemsSpec;
+import com.xbzxit.foodie.pojo.vo.CommentLevelCountsVO;
 
 import java.util.List;
 
 /**
+ * 商品服务接口
+ *
  * @author HFZJ
  * @version 1.0
  * @create 2024-03-18-14:21
@@ -46,4 +49,10 @@ public interface ItemsService {
      */
     List<ItemsSpec> queryItemSpecList(String itemId);
 
+    /**
+     * 根据商品ID查询商品评价总数
+     * @param itemId
+     * @return
+     */
+    CommentLevelCountsVO queryCommentCount(String itemId);
 }

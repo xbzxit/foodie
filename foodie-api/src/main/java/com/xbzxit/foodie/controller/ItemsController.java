@@ -4,6 +4,7 @@ import com.xbzxit.foodie.pojo.Items;
 import com.xbzxit.foodie.pojo.ItemsImg;
 import com.xbzxit.foodie.pojo.ItemsParam;
 import com.xbzxit.foodie.pojo.ItemsSpec;
+import com.xbzxit.foodie.pojo.vo.CommentLevelCountsVO;
 import com.xbzxit.foodie.pojo.vo.ItemInfoVO;
 import com.xbzxit.foodie.service.ItemsService;
 import com.xbzxit.foodie.utils.JSONResult;
@@ -12,14 +13,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
+ * 商品管理
+ *
  * @author HFZJ
  * @version 1.0
  * @create 2024-03-18-14:59
@@ -51,6 +51,17 @@ public class ItemsController {
         itemInfoVO.setItemSpecList(itemsSpecs);
         itemInfoVO.setItemParams(itemsParam);
         return JSONResult.ok(itemInfoVO);
+    }
+
+    @ApiOperation(value = "查询商品评价等级", notes = "查询商品评价等级", httpMethod = "GET")
+    @GetMapping("/commentLevel")
+    public JSONResult commentLevel(@ApiParam(name = "itemId", value = "商品ID", required = true)  @RequestParam String itemId) {
+        if (StringUtils.isBlank(itemId)) {
+            return  JSONResult.errorMsg(null);
+        }
+
+        CommentLevelCountsVO countsVO = itemsService.queryCommentCount(itemId);
+        return JSONResult.ok(countsVO);
     }
 
 }

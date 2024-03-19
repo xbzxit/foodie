@@ -5,6 +5,7 @@ import com.xbzxit.foodie.pojo.ItemsImg;
 import com.xbzxit.foodie.pojo.ItemsParam;
 import com.xbzxit.foodie.pojo.ItemsSpec;
 import com.xbzxit.foodie.pojo.vo.CommentLevelCountsVO;
+import com.xbzxit.foodie.utils.PagedGridResult;
 
 import java.util.List;
 
@@ -55,4 +56,14 @@ public interface ItemsService {
      * @return
      */
     CommentLevelCountsVO queryCommentCount(String itemId);
+
+    /**
+     * 分页查询商品评论内容
+     * @param itemId
+     * @param level
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    PagedGridResult queryPageComments(String itemId, Integer level, Integer page, Integer pageSize);
 }

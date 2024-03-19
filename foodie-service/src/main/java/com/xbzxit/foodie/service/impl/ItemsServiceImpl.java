@@ -1,18 +1,24 @@
 package com.xbzxit.foodie.service.impl;
 
+import cn.hutool.core.util.DesensitizedUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xbzxit.foodie.enums.CommentLevel;
 import com.xbzxit.foodie.mapper.*;
 import com.xbzxit.foodie.pojo.*;
 import com.xbzxit.foodie.pojo.vo.CommentLevelCountsVO;
+import com.xbzxit.foodie.pojo.vo.ItemCommentVO;
 import com.xbzxit.foodie.service.ItemsService;
-import org.apache.commons.lang3.StringUtils;
+import com.xbzxit.foodie.utils.PagedGridResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品服务
@@ -36,6 +42,8 @@ public class ItemsServiceImpl implements ItemsService {
     ItemsSpecMapper itemsSpecMapper;
     @Autowired
     ItemsCommentsMapper itemsCommentsMapper;
+    @Autowired
+    ItemsMapperCustom itemsMapperCustom;
 
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -86,7 +94,7 @@ public class ItemsServiceImpl implements ItemsService {
         return countsVO;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+//    @Transactional(propagation = Propagation.SUPPORTS)
     Integer getCommentCounts(String itemId, Integer level) {
         ItemsComments condition = new ItemsComments();
         condition.setItemId(itemId);
@@ -95,4 +103,38 @@ public class ItemsServiceImpl implements ItemsService {
         }
         return itemsCommentsMapper.selectCount(condition);
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedGridResult queryPageComments(String itemId, Integer level, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("itemId", itemId);
+        map.put("level", level);
+        PageHelper.startPage(page, pageSize);
+        List<ItemCommentVO> list = itemsMapperCustom.queryItemComments(map);
+
+        for (ItemCommentVO vo : list) {
+            vo.setNickname(DesensitizedUtil.chineseName(vo.getNickname()));
+        }
+
+        return setPageGrid(list,page);
+    }
+
+    /**
+     * 封装前端要的数据
+     * @param list
+     * @param page
+     * @return
+     */
+//    @Transactional(propagation = Propagation.SUPPORTS)
+    PagedGridResult setPageGrid(List<ItemCommentVO> list, Integer page) {
+        PageInfo<?> pageList = new PageInfo<>(list);
+        PagedGridResult grid = new PagedGridResult();
+        grid.setPage(page);
+        grid.setRows(list);
+        grid.setTotal(list.size());
+        grid.setRecords(pageList.getTotal());
+        return grid;
+    }
+
 }

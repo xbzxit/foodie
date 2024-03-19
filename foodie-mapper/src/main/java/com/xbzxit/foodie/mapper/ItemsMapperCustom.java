@@ -1,6 +1,12 @@
 package com.xbzxit.foodie.mapper;
 
+import com.xbzxit.foodie.pojo.vo.ItemCommentVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * @author HFZJ
@@ -10,7 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public class ItemsMapperCustom {
+public interface ItemsMapperCustom {
 
-
+    List<ItemCommentVO> queryItemComments(@Param("paramsMap") Map<String, Object> map);
 }

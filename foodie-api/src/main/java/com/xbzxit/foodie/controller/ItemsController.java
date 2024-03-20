@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.weaver.patterns.IfPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,5 +92,34 @@ public class ItemsController {
 
         PagedGridResult grid = itemsService.queryPageComments(itemId, level, page, pageSize);
         return JSONResult.ok(grid);
+    }
+
+
+    @ApiOperation(value = "搜索商品列表", notes = "搜索商品列表", httpMethod = "GET")
+    @GetMapping("/search")
+    public JSONResult search(
+             @ApiParam(name = "keywords", value = "关键字", required = true)
+             @RequestParam String keywords,
+             @ApiParam(name = "sort", value = "排序", required = false)
+             @RequestParam String sort,
+             @ApiParam(name = "page", value = "查询下一页的第几页", required = false)
+             @RequestParam Integer page,
+             @ApiParam(name = "pageSize", value = "分页的每一页显示的条数", required = false)
+             @RequestParam Integer pageSize) {
+        if (StringUtils.isBlank(keywords)) {
+            return JSONResult.errorMsg(null);
+        }
+
+        if (page == null) {
+            page = 1;
+        }
+
+        if (pageSize == null) {
+            pageSize = 10;
+        }
+
+        PagedGridResult grid = itemsService.searchItems(keywords,sort,page,pageSize);
+        return JSONResult.ok(grid);
+
     }
 }

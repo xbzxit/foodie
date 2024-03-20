@@ -8,6 +8,7 @@ import com.xbzxit.foodie.mapper.*;
 import com.xbzxit.foodie.pojo.*;
 import com.xbzxit.foodie.pojo.vo.CommentLevelCountsVO;
 import com.xbzxit.foodie.pojo.vo.ItemCommentVO;
+import com.xbzxit.foodie.pojo.vo.SearchItemsVO;
 import com.xbzxit.foodie.service.ItemsService;
 import com.xbzxit.foodie.utils.PagedGridResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,6 +121,16 @@ public class ItemsServiceImpl implements ItemsService {
         return setPageGrid(list,page);
     }
 
+    @Override
+    public PagedGridResult searchItems(String keywords, String sort, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("keywords", keywords);
+        map.put("sort", sort);
+        PageHelper.startPage(page, pageSize);
+        List<SearchItemsVO> list = itemsMapperCustom.searchItems(map);
+        return setterPagedGrid(list, page);
+    }
+
     /**
      * 封装前端要的数据
      * @param list
@@ -133,6 +144,16 @@ public class ItemsServiceImpl implements ItemsService {
         grid.setPage(page);
         grid.setRows(list);
         grid.setTotal(list.size());
+        grid.setRecords(pageList.getTotal());
+        return grid;
+    }
+
+    private PagedGridResult setterPagedGrid(List<?> list, Integer page) {
+        PageInfo<?> pageList = new PageInfo<>(list);
+        PagedGridResult grid = new PagedGridResult();
+        grid.setPage(page);
+        grid.setRows(list);
+        grid.setTotal(pageList.getPages());
         grid.setRecords(pageList.getTotal());
         return grid;
     }

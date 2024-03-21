@@ -51,16 +51,14 @@ public class AddressController {
     @ApiOperation(value = "用户新增地址", notes = "用户新增地址", httpMethod = "POST")
     @PostMapping("/add")
     public JSONResult add(@RequestBody AddressBO addressBO) {
-
         JSONResult checkRes = checkAddress(addressBO);
         if (checkRes.getStatus() != 200) {
             return checkRes;
         }
-
         addressService.addNewUserAddress(addressBO);
-
         return JSONResult.ok();
     }
+
     private JSONResult checkAddress(AddressBO addressBO) {
         String receiver = addressBO.getReceiver();
         if (StringUtils.isBlank(receiver)) {

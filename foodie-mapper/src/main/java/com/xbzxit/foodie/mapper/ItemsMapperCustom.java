@@ -2,6 +2,7 @@ package com.xbzxit.foodie.mapper;
 
 import com.xbzxit.foodie.pojo.vo.ItemCommentVO;
 import com.xbzxit.foodie.pojo.vo.SearchItemsVO;
+import com.xbzxit.foodie.pojo.vo.ShopcartVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,8 @@ public interface ItemsMapperCustom {
     List<SearchItemsVO> searchItems(@Param("paramsMap") Map<String, Object> map);
 
     List<SearchItemsVO> searchItemsByThirdCat(@Param("paramsMap") Map<String, Object> map);
+
+    List<ShopcartVO> queryItemsBySpecIds(@Param("paramsList") List specIdsList);
+
+    int decreaseItemSpecStock(@Param("specId") String specId, @Param("pendingCounts") int pendingCounts);
 }

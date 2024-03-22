@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "购物车接口controller", tags = {"购物车接口相关的api"})
 @RequestMapping("shopcart")
 @RestController
-public class ShopcatController {
+public class ShopcatController extends BaseController {
 
     @ApiOperation(value = "添加商品到购物车", notes = "添加商品到购物车", httpMethod = "POST")
     @PostMapping("/add")

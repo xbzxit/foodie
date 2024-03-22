@@ -23,7 +23,7 @@ import java.util.List;
 @Api(value = "地址相关", tags = {"地址相关的api接口"})
 @RequestMapping("address")
 @RestController
-public class AddressController {
+public class AddressController extends BaseController {
 
     /**
      * 用户在确认订单页面，可以针对收货地址做如下操作：

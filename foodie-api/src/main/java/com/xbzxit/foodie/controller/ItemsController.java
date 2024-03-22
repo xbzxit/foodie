@@ -14,7 +14,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.weaver.patterns.IfPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,7 @@ import java.util.List;
 @Api(value = "商品接口", tags = {"商品信息展示的相关接口"})
 @RestController
 @RequestMapping("items")
-public class ItemsController {
+public class ItemsController extends BaseController {
 
     @Autowired
     private ItemsService itemsService;
@@ -88,7 +87,7 @@ public class ItemsController {
         }
 
         if (pageSize == null) {
-            pageSize = 10;
+            pageSize = PAGE_SIZE;
         }
 
         PagedGridResult grid = itemsService.queryPageComments(itemId, level, page, pageSize);
@@ -116,7 +115,7 @@ public class ItemsController {
         }
 
         if (pageSize == null) {
-            pageSize = 10;
+            pageSize = PAGE_SIZE;
         }
 
         PagedGridResult grid = itemsService.searchItems(keywords,sort,page,pageSize);
@@ -145,7 +144,7 @@ public class ItemsController {
         }
 
         if (pageSize == null) {
-            pageSize = 10;
+            pageSize = PAGE_SIZE;
         }
 
         PagedGridResult grid = itemsService.searchItems(catId, sort, page, pageSize);

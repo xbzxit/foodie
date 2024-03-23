@@ -1,7 +1,9 @@
 package com.xbzxit.foodie.controller;
 
 import com.xbzxit.foodie.enums.OrderStatusEnum;
+import com.xbzxit.foodie.pojo.OrderStatus;
 import com.xbzxit.foodie.service.OrderService;
+import com.xbzxit.foodie.utils.JSONResult;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,13 @@ public class OrdersController extends BaseController {
     public Integer notifyMerchantOrderPaid(String merchantOrderId) {
         orderService.updateOrderStatus(merchantOrderId, OrderStatusEnum.WAIT_DELIVER.type);
         return HttpStatus.OK.value();
+    }
+
+    @PostMapping("getPaidOrderInfo")
+    public JSONResult getPaidOrderInfo(String orderId) {
+
+        OrderStatus orderStatus = orderService.queryOrderStatusInfo(orderId);
+        return JSONResult.ok(orderStatus);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.xbzxit.foodie.service;
 
+import com.xbzxit.foodie.pojo.OrderStatus;
+
 /**
  * @author HFZJ
  * @version 1.0
@@ -16,4 +18,10 @@ public interface OrderService {
      */
     void updateOrderStatus(String orderId, Integer orderStatus);
 
+    /**
+     * 查询订单状态
+     * @param orderId
+     * @return
+     */
+    OrderStatus queryOrderStatusInfo(String orderId);
 }

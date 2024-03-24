@@ -4,6 +4,7 @@ import cn.hutool.core.util.DesensitizedUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xbzxit.foodie.enums.CommentLevel;
+import com.xbzxit.foodie.enums.YesOrNo;
 import com.xbzxit.foodie.mapper.*;
 import com.xbzxit.foodie.pojo.*;
 import com.xbzxit.foodie.pojo.vo.CommentLevelCountsVO;
@@ -172,6 +173,20 @@ public class ItemsServiceImpl implements ItemsService {
         if (result != 1) {
             throw new RuntimeException("订单创建失败，原因：库存不足!");
         }
+    }
+
+    @Override
+    public ItemsSpec queryItemSpecById(String specId) {
+        return itemsSpecMapper.selectByPrimaryKey(specId);
+    }
+
+    @Override
+    public String queryItemMainImgById(String itemId) {
+        ItemsImg itemsImg = new ItemsImg();
+        itemsImg.setItemId(itemId);
+        itemsImg.setIsMain(YesOrNo.Yes.type);
+        ItemsImg result = itemsImgMapper.selectOne(itemsImg);
+        return result != null ? result.getUrl() : "";
     }
 
     /**

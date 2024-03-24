@@ -1,6 +1,8 @@
 package com.xbzxit.foodie.service;
 
 import com.xbzxit.foodie.pojo.OrderStatus;
+import com.xbzxit.foodie.pojo.bo.SubmitOrderBO;
+import com.xbzxit.foodie.pojo.vo.OrderVO;
 
 /**
  * @author HFZJ
@@ -10,6 +12,12 @@ import com.xbzxit.foodie.pojo.OrderStatus;
  */
 
 public interface OrderService {
+
+    /**
+     * 用于创建订单相关信息
+     * @param submitOrderBO
+     */
+    OrderVO createOrder(SubmitOrderBO submitOrderBO);
 
     /**
      * 修改订单状态
@@ -24,4 +32,5 @@ public interface OrderService {
      * @return
      */
     OrderStatus queryOrderStatusInfo(String orderId);
+
 }

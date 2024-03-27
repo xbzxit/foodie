@@ -1,5 +1,6 @@
 package com.xbzxit.foodie.service.impl;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.IdUtil;
 import com.xbzxit.foodie.enums.OrderStatusEnum;
 import com.xbzxit.foodie.enums.YesOrNo;
@@ -12,12 +13,14 @@ import com.xbzxit.foodie.pojo.vo.OrderVO;
 import com.xbzxit.foodie.service.AddressService;
 import com.xbzxit.foodie.service.ItemsService;
 import com.xbzxit.foodie.service.OrderService;
+import com.xbzxit.foodie.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author HFZJ
@@ -147,6 +150,33 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderStatus queryOrderStatusInfo(String orderId) {
         return orderStatusMapper.selectByPrimaryKey(orderId);
+    }
+
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
+    public void closeOrder() {
+        //查询所有未付款的订单，判断时间是否超过1天，超时则关闭交易
+        OrderStatus queryOrder = new OrderStatus();
+        queryOrder.setOrderStatus(OrderStatusEnum.WAIT_PAY.type);
+        List<OrderStatus> list = orderStatusMapper.select(queryOrder);
+
+        for (OrderStatus os : list) {
+            Date createdTime = os.getCreatedTime();
+
+            int days = DateUtil.daysBetween(createdTime, new Date());
+            if (days >=1) {
+                doCloseOrder(os.getOrderId());
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    void doCloseOrder(String orderId) {
+        OrderStatus orderStatus = new OrderStatus();
+        orderStatus.setOrderId(orderId);
+        orderStatus.setOrderStatus(OrderStatusEnum.CLOSE.type);
+        orderStatus.setCloseTime(new Date());
+        orderStatusMapper.updateByPrimaryKeySelective(orderStatus);
     }
 
 }

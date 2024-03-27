@@ -33,4 +33,8 @@ public interface OrderService {
      */
     OrderStatus queryOrderStatusInfo(String orderId);
 
+    /**
+     * 关闭超时未支付订单
+     */
+    public void closeOrder();
 }

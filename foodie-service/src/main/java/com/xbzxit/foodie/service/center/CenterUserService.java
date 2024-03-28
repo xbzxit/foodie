@@ -1,6 +1,7 @@
 package com.xbzxit.foodie.service.center;
 
 import com.xbzxit.foodie.pojo.Users;
+import com.xbzxit.foodie.pojo.bo.CenterUserBO;
 
 /**
  * @author HFZJ
@@ -17,4 +18,20 @@ public interface CenterUserService {
      * @return
      */
     Users queryUserInfo(String userId);
+
+    /**
+     * 修改用户信息
+     * @param userId
+     * @param centerUserBO
+     * @return
+     */
+    Users updateUserInfo(String userId, CenterUserBO centerUserBO);
+
+    /**
+     * 用户头像更新
+     * @param userId
+     * @param faceUrl
+     * @return
+     */
+    Users updateUserFace(String userId, String faceUrl);
 }
